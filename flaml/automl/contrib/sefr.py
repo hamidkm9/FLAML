@@ -10,8 +10,9 @@ means. Fitting is a closed form with no iterative optimization, and takes three
 passes over the data whatever the number of classes: the feature range, the
 per-class feature sums (one sparse one-hot matrix product), and the spread of
 the training scores (in row chunks). Every one-vs-rest head and its Eq. 9 bias
-follow from the per-class sums, so beyond the scaled copy of the input the fit
-holds O(n_classes * n_features) memory, not O(n_samples * n_classes).
+follow from the per-class sums. Beyond the scaled input, fitting needs
+O(n_samples + n_classes * n_features) auxiliary memory plus bounded score chunks;
+it does not retain a full n_samples * n_classes score matrix.
 The optional "platt" calibration adds an iterative fit of n_classes + 1
 parameters on at most ``_CALIBRATION_MAX_ENTRIES`` training margins.
 
